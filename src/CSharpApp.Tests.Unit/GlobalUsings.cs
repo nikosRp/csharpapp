@@ -1,0 +1,9 @@
+global using Xunit;
+global using System.Collections.ObjectModel;
+global using CSharpApp.Api;
+global using CSharpApp.Application.Services;
+global using CSharpApp.Core.Dtos;
+global using CSharpApp.Core.Interfaces;
+global using FluentAssertions;
+global using Microsoft.Extensions.Options;
+global using NSubstitute;
