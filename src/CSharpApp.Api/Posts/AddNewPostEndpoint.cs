@@ -12,6 +12,8 @@ public static class AddNewPostEndpoint
                 return TypedResults.CreatedAtRoute(result, GetPostEndpoint.Name, new { id = result.Id });
             })
             .WithName(Name)
+            .Produces<PostRecordResponse>(StatusCodes.Status201Created)
+            .Produces(StatusCodes.Status400BadRequest)
             .WithOpenApi();
         return app;
     }

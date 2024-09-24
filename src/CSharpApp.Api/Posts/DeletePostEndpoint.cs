@@ -17,6 +17,8 @@ public static class DeletePostEndpoint
                 return Results.Ok();
             })
             .WithName(Name)
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound)
             .WithOpenApi();
         return app;
     }

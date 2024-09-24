@@ -12,6 +12,8 @@ public static class GetPostEndpoint
                 return post;
             })
             .WithName(Name)
+            .Produces<PostRecordResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound)
             .WithOpenApi();
         return app;
     }

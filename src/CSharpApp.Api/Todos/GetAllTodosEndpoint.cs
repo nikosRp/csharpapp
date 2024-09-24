@@ -12,6 +12,7 @@ public static class GetAllTodosEndpoint
                 return todos;
             })
             .WithName(Name)
+            .Produces<ReadOnlyCollection<TodoRecordResponse>>(StatusCodes.Status200OK)
             .WithOpenApi();
 
         return app;

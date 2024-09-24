@@ -12,6 +12,7 @@ public static class GetAllPostsEndpoint
                 return posts;
             })
             .WithName(Name)
+            .Produces<ReadOnlyCollection<PostRecordResponse>>(StatusCodes.Status200OK)
             .WithOpenApi();
 
         return app;

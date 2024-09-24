@@ -9,3 +9,4 @@ global using CSharpApp.Api.Posts;
 global using CSharpApp.Core.Dtos;
 global using CSharpApp.Api;
 global using CSharpApp.Application.Services;
+global using System.Collections.ObjectModel;

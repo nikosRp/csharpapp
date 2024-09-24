@@ -12,6 +12,8 @@ public static class GetTodoEndpoint
                 return todos;
             })
             .WithName(Name)
+            .Produces<TodoRecordResponse>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status404NotFound)
             .WithOpenApi();
         return app;
     }
