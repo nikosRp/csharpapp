@@ -38,4 +38,12 @@ app.MapGet("/todos/{id}", async ([FromRoute] int id, ITodoService todoService) =
     .WithName("GetTodosById")
     .WithOpenApi();
 
+app.MapGet("/posts/{id}", async ([FromRoute] int id, IPostService todoService) =>
+    {
+        var post = await todoService.GetPostById(id);
+        return post;
+    })
+    .WithName("GetPostById")
+    .WithOpenApi();
+
 app.Run();
