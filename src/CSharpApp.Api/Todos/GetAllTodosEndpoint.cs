@@ -1,6 +1,6 @@
 namespace CSharpApp.Api.Todos;
 
-public static class MapGetAllTodosEndpoint
+public static class GetAllTodosEndpoint
 {
     private const string Name = "GetTodos";
 

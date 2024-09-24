@@ -1,6 +1,6 @@
 namespace CSharpApp.Api.Posts;
 
-public static class MapGetAllPostsEndpoint
+public static class GetAllPostsEndpoint
 {
     private const string Name = "GetPosts";
 

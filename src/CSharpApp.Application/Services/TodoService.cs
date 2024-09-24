@@ -15,18 +15,18 @@ public class TodoService : ITodoService
         _baseUrl = configuration["BaseUrl"];
     }
 
-    public async Task<TodoRecord?> GetTodoById(int id)
+    public async Task<TodoRecordResponse?> GetTodoById(int id)
     {
         _client.BaseAddress = new Uri(_baseUrl!);
-        var response = await _client.GetFromJsonAsync<TodoRecord>($"todos/{id}");
+        var response = await _client.GetFromJsonAsync<TodoRecordResponse>($"todos/{id}");
 
         return response;
     }
 
-    public async Task<ReadOnlyCollection<TodoRecord>> GetAllTodos()
+    public async Task<ReadOnlyCollection<TodoRecordResponse>> GetAllTodos()
     {
         _client.BaseAddress = new Uri(_baseUrl!);
-        var response = await _client.GetFromJsonAsync<List<TodoRecord>>($"todos");
+        var response = await _client.GetFromJsonAsync<List<TodoRecordResponse>>($"todos");
 
         return response!.AsReadOnly();
     }

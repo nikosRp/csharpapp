@@ -15,19 +15,28 @@ public class PostService : IPostService
         _baseUrl = configuration["BaseUrl"];
     }
 
-    public async Task<PostRecord?> GetPostById(int id)
+    public async Task<PostRecordResponse?> GetPostById(int id)
     {
         _client.BaseAddress = new Uri(_baseUrl!);
-        var response = await _client.GetFromJsonAsync<PostRecord>($"posts/{id}");
+        var response = await _client.GetFromJsonAsync<PostRecordResponse>($"posts/{id}");
 
         return response;
     }
 
-    public async Task<ReadOnlyCollection<PostRecord>> GetAllPosts()
+    public async Task<ReadOnlyCollection<PostRecordResponse>> GetAllPosts()
     {
         _client.BaseAddress = new Uri(_baseUrl!);
-        var response = await _client.GetFromJsonAsync<List<PostRecord>>($"posts");
+        var response = await _client.GetFromJsonAsync<List<PostRecordResponse>>($"posts");
 
         return response!.AsReadOnly();
+    }
+
+    public async Task<PostRecordResponse> CreateAsync(PostRecordRequest newPost)
+    {
+        _client.BaseAddress = new Uri(_baseUrl!);
+        var response = await _client.PostAsJsonAsync("posts", newPost);
+        response.EnsureSuccessStatusCode();
+        var createdPost = await response.Content.ReadFromJsonAsync<PostRecordResponse>();
+        return createdPost;
     }
 }

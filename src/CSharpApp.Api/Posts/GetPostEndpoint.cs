@@ -1,8 +1,8 @@
 namespace CSharpApp.Api.Posts;
 
-public static class MapGetPostEndpoint
+public static class GetPostEndpoint
 {
-    private const string Name = "GetPostById";
+    public const string Name = "GetPostById";
 
     public static IEndpointRouteBuilder MapGetPost(this IEndpointRouteBuilder app)
     {
