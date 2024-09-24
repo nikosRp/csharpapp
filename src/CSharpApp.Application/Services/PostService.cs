@@ -23,4 +23,11 @@ public class PostService : IPostService
         return response;
     }
 
+    public async Task<ReadOnlyCollection<PostRecord>> GetAllPosts()
+    {
+        _client.BaseAddress = new Uri(_baseUrl!);
+        var response = await _client.GetFromJsonAsync<List<PostRecord>>($"posts");
+
+        return response!.AsReadOnly();
+    }
 }
