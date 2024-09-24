@@ -39,4 +39,13 @@ public class PostService : IPostService
         var createdPost = await response.Content.ReadFromJsonAsync<PostRecordResponse>();
         return createdPost;
     }
+
+    public async Task<bool> DeleteByIdAsync(int id)
+    {
+        _client.BaseAddress = new Uri(_baseUrl!);
+        
+        var response = await _client.DeleteAsync($"posts/{id}");
+        
+        return response.IsSuccessStatusCode;
+    }
 }

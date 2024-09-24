@@ -7,6 +7,7 @@ public static class PostEndpointExtensions
         app.MapGetPost();
         app.MapGetAllPosts();
         app.MapAddNewPost();
+        app.MapDeletePost();
         return app;
     }
 }
