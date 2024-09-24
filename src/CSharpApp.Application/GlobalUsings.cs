@@ -6,3 +6,5 @@ global using CSharpApp.Core.Dtos;
 global using CSharpApp.Core.Interfaces;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.Logging;
+global using CSharpApp.Api;
+global using Microsoft.Extensions.Options;

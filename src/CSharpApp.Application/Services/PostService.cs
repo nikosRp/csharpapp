@@ -2,50 +2,37 @@ namespace CSharpApp.Application.Services;
 
 public class PostService : IPostService
 {
-    private readonly ILogger<PostService> _logger;
-    private readonly HttpClient _client;
-
+    private readonly IHttpClientWrapper _httpClientWrapper;
     private readonly string? _baseUrl;
 
-    public PostService(ILogger<PostService> logger, 
-        IConfiguration configuration)
+    public PostService(IHttpClientWrapper httpClientWrapper, IOptions<ApiSettings> options)
     {
-        _logger = logger;
-        _client = new HttpClient();
-        _baseUrl = configuration["BaseUrl"];
+        _httpClientWrapper = httpClientWrapper;
+        _baseUrl = options.Value.BaseUrl;
     }
+
 
     public async Task<PostRecordResponse?> GetPostById(int id)
     {
-        _client.BaseAddress = new Uri(_baseUrl!);
-        var response = await _client.GetFromJsonAsync<PostRecordResponse>($"posts/{id}");
-
-        return response;
+        var uri = $"{_baseUrl}/posts/{id}";
+        return await _httpClientWrapper.GetAsync<PostRecordResponse>(uri);
     }
 
     public async Task<ReadOnlyCollection<PostRecordResponse>> GetAllPosts()
     {
-        _client.BaseAddress = new Uri(_baseUrl!);
-        var response = await _client.GetFromJsonAsync<List<PostRecordResponse>>($"posts");
-
-        return response!.AsReadOnly();
+        var uri = $"{_baseUrl}/posts";
+        var result = await _httpClientWrapper.GetAsync<List<PostRecordResponse>>(uri);
+        return result!.AsReadOnly();
     }
 
-    public async Task<PostRecordResponse> CreateAsync(PostRecordRequest newPost)
+    public async Task<PostRecordResponse?> CreateAsync(PostRecordRequest newPost)
     {
-        _client.BaseAddress = new Uri(_baseUrl!);
-        var response = await _client.PostAsJsonAsync("posts", newPost);
-        response.EnsureSuccessStatusCode();
-        var createdPost = await response.Content.ReadFromJsonAsync<PostRecordResponse>();
+        var createdPost = await _httpClientWrapper.PostAsync<PostRecordResponse>("posts", newPost);
         return createdPost;
     }
 
     public async Task<bool> DeleteByIdAsync(int id)
     {
-        _client.BaseAddress = new Uri(_baseUrl!);
-        
-        var response = await _client.DeleteAsync($"posts/{id}");
-        
-        return response.IsSuccessStatusCode;
+        return await _httpClientWrapper.DeleteAsync($"posts/{id}");
     }
 }

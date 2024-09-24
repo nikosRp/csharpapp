@@ -16,59 +16,60 @@ public class HttpClientWrapper : IHttpClientWrapper
         try
         {
             var response = await _client.GetAsync(uri);
-            response.EnsureSuccessStatusCode();
+            response.EnsureSuccessStatusCode(); 
             var result = await response.Content.ReadFromJsonAsync<T>();
             return result;
         }
-        catch (HttpRequestException ex)
+        catch (Exception ex)
         {
-            _logger.LogError(ex, "Error occurred while performing GET request to {Uri}", uri);
+            _logger.LogError(ex, $"Error occurred while GET request to {uri}");
             throw;
         }
     }
-
-    public async Task<TResponse?> PostAsync<TRequest, TResponse>(string uri, TRequest body)
+    
+    public async Task<T?> PostAsync<T>(string uri, object data)
     {
         try
         {
-            var response = await _client.PostAsJsonAsync(uri, body);
-            response.EnsureSuccessStatusCode();
-            var result = await response.Content.ReadFromJsonAsync<TResponse>();
+            var response = await _client.PostAsJsonAsync(uri, data); 
+            response.EnsureSuccessStatusCode(); 
+            var result = await response.Content.ReadFromJsonAsync<T>(); 
             return result;
         }
-        catch (HttpRequestException ex)
+        catch (Exception ex)
         {
-            _logger.LogError(ex, "Error occurred while performing POST request to {Uri}", uri);
+            _logger.LogError(ex, $"Error occurred while POST request to {uri}");
             throw;
         }
     }
-
-    public async Task<TResponse?> PutAsync<TRequest, TResponse>(string uri, TRequest body)
+    
+    public async Task<T?> PutAsync<T>(string uri, object data)
     {
         try
         {
-            var response = await _client.PutAsJsonAsync(uri, body);
-            response.EnsureSuccessStatusCode();
-            var result = await response.Content.ReadFromJsonAsync<TResponse>();
+            var response = await _client.PutAsJsonAsync(uri, data); 
+            response.EnsureSuccessStatusCode(); 
+            var result = await response.Content.ReadFromJsonAsync<T>(); 
             return result;
         }
-        catch (HttpRequestException ex)
+        catch (Exception ex)
         {
-            _logger.LogError(ex, "Error occurred while performing PUT request to {Uri}", uri);
+            _logger.LogError(ex, $"Error occurred while PUT request to {uri}");
             throw;
         }
     }
-
+    
     public async Task<bool> DeleteAsync(string uri)
     {
         try
         {
             var response = await _client.DeleteAsync(uri);
+            response.EnsureSuccessStatusCode();
             return response.IsSuccessStatusCode;
         }
-        catch (HttpRequestException ex)
+        catch (Exception ex)
         {
-            _logger.LogError(ex, "Error occurred while performing DELETE request to {Uri}", uri);
+            _logger.LogError(ex, $"Error occurred while DELETE request to {uri}");
             throw;
         }
     }

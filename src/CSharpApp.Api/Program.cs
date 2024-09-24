@@ -6,7 +6,7 @@ builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddHttpClient<IHttpClientWrapper, HttpClientWrapper>(client =>
 {
-    var baseUrl = builder.Configuration["BaseUrl"];
+    var baseUrl = builder.Configuration["ApiSettings:BaseUrl"];
     client.BaseAddress = new Uri(baseUrl!);
 });
 
