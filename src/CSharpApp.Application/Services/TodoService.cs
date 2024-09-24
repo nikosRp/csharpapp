@@ -5,10 +5,10 @@ public class TodoService : ITodoService
     private readonly IHttpClientWrapper _httpClientWrapper;
     private readonly string? _baseUrl;
 
-    public TodoService(IConfiguration configuration, IHttpClientWrapper httpClientWrapper)
+    public TodoService(IHttpClientWrapper httpClientWrapper, IOptions<ApiSettings> options)
     {
         _httpClientWrapper = httpClientWrapper;
-        _baseUrl = configuration["BaseUrl"];
+        _baseUrl = options.Value.BaseUrl;
     }
 
     public async Task<TodoRecordResponse?> GetTodoById(int id)
