@@ -1,10 +1,14 @@
-using CSharpApp.Api;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog(new LoggerConfiguration().ReadFrom.Configuration(builder.Configuration).CreateLogger());
 
 builder.Configuration.AddEnvironmentVariables();
+
+builder.Services.AddHttpClient<IHttpClientWrapper, HttpClientWrapper>(client =>
+{
+    var baseUrl = builder.Configuration["BaseUrl"];
+    client.BaseAddress = new Uri(baseUrl!);
+});
 
 // Add services to the container.
 builder.Services.AddDefaultConfiguration();

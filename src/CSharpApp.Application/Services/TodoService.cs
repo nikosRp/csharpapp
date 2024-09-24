@@ -3,31 +3,28 @@ namespace CSharpApp.Application.Services;
 public class TodoService : ITodoService
 {
     private readonly ILogger<TodoService> _logger;
-    private readonly HttpClient _client;
+    private readonly IHttpClientWrapper _httpClientWrapper;
 
     private readonly string? _baseUrl;
 
     public TodoService(ILogger<TodoService> logger, 
-        IConfiguration configuration)
+        IConfiguration configuration, IHttpClientWrapper httpClientWrapper)
     {
         _logger = logger;
-        _client = new HttpClient();
+        _httpClientWrapper = httpClientWrapper;
         _baseUrl = configuration["BaseUrl"];
     }
 
     public async Task<TodoRecordResponse?> GetTodoById(int id)
     {
-        _client.BaseAddress = new Uri(_baseUrl!);
-        var response = await _client.GetFromJsonAsync<TodoRecordResponse>($"todos/{id}");
-
-        return response;
+        var uri = $"{_baseUrl}/todos/{id}";
+        return await _httpClientWrapper.GetAsync<TodoRecordResponse>(uri);
     }
 
     public async Task<ReadOnlyCollection<TodoRecordResponse>> GetAllTodos()
     {
-        _client.BaseAddress = new Uri(_baseUrl!);
-        var response = await _client.GetFromJsonAsync<List<TodoRecordResponse>>($"todos");
-
-        return response!.AsReadOnly();
+        var uri = $"{_baseUrl}/todos";
+        var result = await _httpClientWrapper.GetAsync<List<TodoRecordResponse>>(uri);
+        return result!.AsReadOnly();
     }
 }
