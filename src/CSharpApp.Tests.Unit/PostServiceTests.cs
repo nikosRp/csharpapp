@@ -39,6 +39,24 @@ public class PostServiceTests
     }
     
     [Fact]
+    public async Task GetPostById_ShouldReturnNull_WhenPostDoesNotExist()
+    {
+        // Arrange
+        var postId = 999;
+        PostRecordResponse? expectedPost = null;
+        
+        _httpClientWrapper.GetAsync<PostRecordResponse>($"https://jsonplaceholder.typicode.com/posts/{postId}")
+            .Returns(expectedPost);
+
+        // Act
+        var result = await _sut.GetPostById(postId);
+
+        // Assert
+        result.Should().BeNull();
+    }
+
+    
+    [Fact]
     public async Task GetAllPosts_ShouldReturnReadOnlyCollectionOfPostRecordResponse()
     {
         // Arrange

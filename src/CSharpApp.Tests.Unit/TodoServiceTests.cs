@@ -38,6 +38,24 @@ public class TodoServiceTests
     }
     
     [Fact]
+    public async Task GetTodoById_ShouldReturnNull_WhenTodoDoesNotExist()
+    {
+        // Arrange
+        var todoId = 999;
+        TodoRecordResponse? expectedTodo = null;
+        
+        _httpClientWrapper.GetAsync<TodoRecordResponse>($"https://jsonplaceholder.typicode.com/todos/{todoId}")
+            .Returns(expectedTodo);
+
+        // Act
+        var result = await _sut.GetTodoById(todoId);
+
+        // Assert
+        result.Should().BeNull();
+    }
+
+    
+    [Fact]
     public async Task GetAllTodos_ShouldReturnReadOnlyCollectionOfTodoRecordResponse()
     {
         // Arrange
